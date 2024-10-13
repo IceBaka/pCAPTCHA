@@ -3,7 +3,7 @@
 #include <SDL_image.h>
 
 #define APP_WINDOW_W 640
-#define APP_WINDOW_H 640*0.618
+#define APP_WINDOW_H 395 //640*0.618
 
 int main(int argc,char *argv[])
 {
@@ -22,7 +22,7 @@ int main(int argc,char *argv[])
         return -2;
     }
     
-    SDL_Window *theWindow = SDL_CreateWindow("CAPTCHA DEMO",SDL_WINDOWPOS_CENTERED,SDL_WINDOWPOS_CENTERED,APP_WINDOW_W,APP_WINDOW_H,SDL_WINDOW_SHOWN);
+    SDL_Window *theWindow = SDL_CreateWindow("CAPTCHA DEMO",SDL_WINDOWPOS_CENTERED,SDL_WINDOWPOS_CENTERED,APP_WINDOW_W,APP_WINDOW_H,SDL_WINDOW_SHOWN|SDL_WINDOW_BORDERLESS);
     SDL_Renderer *theRenderer = SDL_CreateRenderer(theWindow,-1,SDL_RENDERER_ACCELERATED|SDL_RENDERER_PRESENTVSYNC);
 
     int QUIT = 0;
@@ -40,6 +40,9 @@ int main(int argc,char *argv[])
             }
         }
 
+        SDL_SetRenderDrawColor(theRenderer,125,125,125,255);
+        SDL_RenderClear(theRenderer);
+        SDL_RenderPresent(theRenderer);
 
     }
 
