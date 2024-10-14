@@ -7,7 +7,7 @@
 
 int main(int argc,char *argv[])
 {
-    SDL_SetHint(SDL_HINT_WINDOWS_DPI_AWARENESS, "permonitor");
+    SDL_SetHint(SDL_HINT_WINDOWS_DPI_AWARENESS,"permonitor");
     SDL_SetHint(SDL_HINT_RENDER_SCALE_QUALITY,"best");
 
     if (SDL_Init(SDL_INIT_VIDEO))
@@ -31,9 +31,9 @@ int main(int argc,char *argv[])
     {
         while (SDL_PollEvent(&e))
         {   
-            if(e.type==SDL_WINDOWEVENT)
+            if(e.type == SDL_WINDOWEVENT)
             {
-                if (e.window.event==SDL_WINDOWEVENT_CLOSE)
+                if (e.window.event == SDL_WINDOWEVENT_CLOSE)
                 {
                     QUIT=1;
                 }
