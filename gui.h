@@ -28,6 +28,7 @@ typedef struct control_node_data
 {
     const char *name;
     SDL_Rect area;
+    double angle;   // todo: check angle in some functions
     void (*callback)(Uint32 state,struct control_node_data *control_data);
 
     SDL_Texture *texture_nohit;

@@ -318,7 +318,7 @@ void drawControls(Node *controlList)
     {   
         CONTROL_NODE_DATA *p = controlList->node_data;
         controlList = controlList->next;
-        if(p->texture_nohit != NULL)SDL_RenderCopy(APP_Renderer,p->texture_nohit,NULL,&p->area);
+        if(p->texture_nohit != NULL)SDL_RenderCopyEx(APP_Renderer,p->texture_nohit,NULL,&p->area,p->angle,NULL,SDL_FLIP_NONE);
     }
 }
 
@@ -339,43 +339,43 @@ void drawControls(Node *controlList)
 // }
 
 
-void drawXXXButton(Uint32 state)
-{
-    if (state == BUTTON_MOUSE_NONE)
-    {
-        ;
-    }
-    else if (state == BUTTON_MOUSE_ON)
-    {
-        ;
-    }
-    else if (state == BUTTON_MOUSE_DOWN)
-    {
-        ;
-    }
+// void drawXXXButton(Uint32 state)
+// {
+//     if (state == BUTTON_MOUSE_NONE)
+//     {
+//         ;
+//     }
+//     else if (state == BUTTON_MOUSE_ON)
+//     {
+//         ;
+//     }
+//     else if (state == BUTTON_MOUSE_DOWN)
+//     {
+//         ;
+//     }
 
-}
+// }
 
-void draw_CloseButton(Uint32 state)
-{
-    if (state == BUTTON_MOUSE_NONE)
-    {
-        ;
-    }
-    else if (state == BUTTON_MOUSE_ON)
-    {
-        ;
-    }
-    else if (state == BUTTON_MOUSE_DOWN)
-    {
-        ;
-    }
-}
+// void draw_CloseButton(Uint32 state)
+// {
+//     if (state == BUTTON_MOUSE_NONE)
+//     {
+//         ;
+//     }
+//     else if (state == BUTTON_MOUSE_ON)
+//     {
+//         ;
+//     }
+//     else if (state == BUTTON_MOUSE_DOWN)
+//     {
+//         ;
+//     }
+// }
 
-void draw_Eye()
-{
+// void draw_Eye()
+// {
 
-}
+// }
 
 // void drawCAPTCHA()
 // {

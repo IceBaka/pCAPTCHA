@@ -3,6 +3,7 @@
 #include <SDL_image.h>
 #include "Chipmunk-7.0.3/include/chipmunk/chipmunk.h"
 #include "gui.h"
+#include "captcha.h"
 
 int main(int argc,char *argv[])
 {
@@ -31,66 +32,6 @@ int main(int argc,char *argv[])
     // SDL_Rect drag_r = {APP_WINDOW_W*0.5,0,APP_WINDOW_W*0.5,APP_WINDOW_H};
     // addControl(&ControlList,"drag",drag_r,topbarHandler,NULL,NULL,NULL);
 
-
-
-    // cpVect is a 2D vector and cpv() is a shortcut for initializing them.
-    cpVect gravity = cpv(0, -500);
-    
-    // Create an empty space.
-    cpSpace *space = cpSpaceNew();
-    cpSpaceSetGravity(space, gravity);
-    
-    // Add a static line segment shape for the ground.
-    // We'll make it slightly tilted so the ball will roll off.
-    // We attach it to a static body to tell Chipmunk it shouldn't be movable.
-    cpShape *ground = cpSegmentShapeNew(cpSpaceGetStaticBody(space), cpv(0, -APP_WINDOW_H*0.75), cpv(APP_WINDOW_W, -APP_WINDOW_H*0.75), 0);
-    cpShapeSetFriction(ground, 1);
-    cpSpaceAddShape(space, ground);
-    
-    // Now let's make a ball that falls onto the line and rolls off.
-    // First we need to make a cpBody to hold the physical properties of the object.
-    // These include the mass, position, velocity, angle, etc. of the object.
-    // Then we attach collision shapes to the cpBody to give it a size and shape.
-    
-    cpFloat radius = 5;
-    cpFloat mass = 1;
-    
-    // The moment of inertia is like mass for rotation
-    // Use the cpMomentFor*() functions to help you approximate it.
-    cpFloat moment = cpMomentForBox(mass, 50, 50);
-    
-    // The cpSpaceAdd*() functions return the thing that you are adding.
-    // It's convenient to create and add an object in one line.
-    cpBody *boxBody = cpSpaceAddBody(space, cpBodyNew(mass, moment));
-    cpBodySetPosition(boxBody, cpv(100, 0));
-    
-    // Now we create the collision shape for the ball.
-    // You can create multiple collision shapes that point to the same body.
-    // They will all be attached to the body and move around to follow it.
-    cpShape *boxShape = cpSpaceAddShape(space, cpBoxShapeNew(boxBody,50,50,0));
-    cpShapeSetFriction(boxShape, 0.7);
-
-
-    SDL_Rect block_r = {100,0,50,50};
-    Node *p = addControl(&ControlList,"block",block_r,BlockHandler,test0,NULL,NULL);
-    CONTROL_NODE_DATA *block_controldata = p->node_data;
-    block_controldata->data=malloc(sizeof(cpBody*));
-    *((cpBody**)(block_controldata->data)) = boxBody;
-
-    
-    cpBody *boxBody2 = cpSpaceAddBody(space, cpBodyNew(mass, moment));
-    cpBodySetPosition(boxBody2, cpv(200, 0));
-    cpShape *boxShape2 = cpSpaceAddShape(space, cpBoxShapeNew(boxBody2,50,50,0));
-    cpShapeSetFriction(boxShape2, 0.7);
-    
-    SDL_Rect block_r2 = {200,0,50,50};
-    Node *p2 = addControl(&ControlList,"block",block_r2,BlockHandler,test0,NULL,NULL);
-    CONTROL_NODE_DATA *block_controldata2 = p2->node_data;
-    block_controldata2->data=malloc(sizeof(cpBody*));
-    *((cpBody**)(block_controldata2->data)) = boxBody2;
-
-    cpSpaceAddConstraint(space,cpPivotJointNew(boxBody,boxBody2,cpv(150,0)));
-    
     
     Uint32 startTime = SDL_GetTicks();
     Uint32 lastTime = SDL_GetTicks();
@@ -117,12 +58,10 @@ int main(int argc,char *argv[])
         cpSpaceStep(space, (lastTime - startTime) / 1000.0);
         startTime = SDL_GetTicks();
 
-        cpVect boxPos= cpBodyGetPosition(boxBody);
-        block_controldata->area.x = boxPos.x;block_controldata->area.y = -boxPos.y;
-        cpVect boxPos2= cpBodyGetPosition(boxBody2);
-        block_controldata2->area.x = boxPos2.x;block_controldata2->area.y = -boxPos2.y;
+        UpdateCaptchaControls(CaptchaControlList);
 
         drawControls(ControlList);
+        drawControls(CaptchaControlList);
         CheckMouse(ControlList);
         RunJobs(JobList);
         
